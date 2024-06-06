@@ -36,3 +36,22 @@ export const MobileNavigationSectionData = [
         iconPath: "/src/assets/icons/frame.svg"
     },
 ]
+export const FooterCardsCategoryData= [
+    {
+        id: 1,
+        iconPath: "/src/assets/icons/GlassFrame.svg",
+        title: "مد و فشن"
+    }, {
+        id: 1,
+        iconPath: "/src/assets/icons/Potion.svg",
+        title: "زیبایی و سلامت"
+    }, {
+        id: 1,
+        iconPath: "/src/assets/icons/HomeAppliances.svg",
+        title: "لوازم خانه"
+    }, {
+        id: 1,
+        iconPath: "/src/assets/icons/TandE.svg",
+        title: "ورزش و سفر"
+    },
+]
