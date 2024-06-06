@@ -8,11 +8,11 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({
-                         title = "عنوان محصول عنوان محصول عنوان محصول عنوان محصول عنوان محصول عنوان محصول عنوان محصولعنوان محصولعنوان محصولعنوان محصولعنوان محصول",
+                         title = "عنوان محصول عنوان محصول عنوان محصول ",
                          outDatedPrice = "460,000",
                          price = "460,000",
                          ratingTags = ["/src/assets/images/DummyProductRatingImage.png", "/src/assets/images/DummyProductRatingImage.png", "/src/assets/images/DummyProductRatingImage.png"],
-                         imageUrl = "",
+                         imageUrl = "/src/assets/images/DummyProductImage.png",
                          ratingNumber = 4.6
                      }: ProductCardProps) => {
     return (
@@ -25,7 +25,7 @@ const ProductCard = ({
                 }
             </div>
             <div className="product__card-product-image">
-                <img src="/src/assets/images/DummyProductImage.png" alt="Product Image"/>
+                <img src={imageUrl} alt="Product Image"/>
             </div>
             <div className="product__card-product-title" dir="rtl">
                 <p>
