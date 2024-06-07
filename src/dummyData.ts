@@ -36,7 +36,7 @@ export const MobileNavigationSectionData = [
         iconPath: "/src/assets/icons/frame.svg"
     },
 ]
-export const FooterCardsCategoryData= [
+export const FooterCardsCategoryData = [
     {
         id: 1,
         iconPath: "/src/assets/icons/GlassFrame.svg",
@@ -53,5 +53,28 @@ export const FooterCardsCategoryData= [
         id: 1,
         iconPath: "/src/assets/icons/TandE.svg",
         title: "ورزش و سفر"
+    },
+]
+export const NavMenuData = [
+    {
+        id: 1,
+        title: "بلاگ",
+        linkTo: "/blog",
+        iconPath: ""
+    }, {
+        id: 2,
+        title: "داستان ما",
+        linkTo: "/ourJourney",
+        iconPath: ""
+    }, {
+        id: 3,
+        title: "تماس با ما",
+        linkTo: "/contact-us",
+        iconPath: ""
+    }, {
+        id: 1,
+        title: "فروشنده شوید",
+        linkTo: "/blog",
+        iconPath: "/src/assets/icons/MobileNavShopIcon.svg"
     },
 ]
