@@ -13,17 +13,26 @@ const Footer = () => {
                         <div className="footer__items-image-wrapper">
                             <img src="/src/assets/images/cuteWoman.png" alt="cuteWomen Image"/>
                         </div>
-                        <div className="footer__items-cards-wrapper" dir="rtl">
-                            {
-                                FooterCardsCategoryData.map((item, i) => {
-                                    return (
-                                        <CategoryCard iconPath={item.iconPath} key={i} title={item.title}/>
-                                    )
-                                })
-                            }
-                        </div>
-                        <div style={{marginTop:'40px',width:"100%" , display:'flex' , alignItems:'center' , justifyContent:'center'}} dir="rtl">
-                            <CustomButton iconUrl="/src/assets/icons/arrow-down.svg" title="مشاهده همه محصولات" linkUrl="/"/>
+                        <div className="footer__item-right-wrapper">
+                            <div className="footer__items-cards-wrapper" dir="rtl">
+                                {
+                                    FooterCardsCategoryData.map((item, i) => {
+                                        return (
+                                            <CategoryCard iconPath={item.iconPath} key={i} title={item.title}/>
+                                        )
+                                    })
+                                }
+                            </div>
+                            <div style={{
+                                marginTop: "40px",
+                                width: "100%",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center"
+                            }} dir="rtl">
+                                <CustomButton iconUrl="/src/assets/icons/arrow-down.svg" title="مشاهده همه محصولات"
+                                              linkUrl="/"/>
+                            </div>
                         </div>
                     </div>
                 </div>
