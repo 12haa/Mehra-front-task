@@ -1,11 +1,10 @@
 import Bounded from "./Bounded.tsx";
-
 import ProductCard from "./ProductCard.tsx";
 
 const HeroCardsSection = () => {
     return (
         <div className="hero__section-main-div">
-            <Bounded childrenStyle={{paddingTop:'20px'}}>
+            <Bounded childrenStyle={{paddingTop: "20px", borderRadius: "12px"}} style={{borderRadius: "12px"}}>
                 {/*Products Card Section*/}
                 <div className="product__card-wrapper">
                     {
