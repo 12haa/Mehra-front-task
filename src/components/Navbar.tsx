@@ -50,7 +50,7 @@ const Navbar = () => {
                 </div>
                     <div className="navbar__desktop-icons">
                         <img src="/src/assets/icons/Heart.svg" alt="heart icon"/>
-                        <img src="/src/assets/icons/ShoppingCard.svg" alt="shooping card icon"/>
+                        <img src="/src/assets/icons/shopping-Cart.svg" alt="shooping card icon"/>
                         <img src="/src/assets/icons/Profile.svg" alt="profile icon"/>
                     </div>
                 <div className="navbar__mobile-icons">

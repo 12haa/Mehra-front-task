@@ -18,6 +18,11 @@ const Footer = () => {
             x: 60,
             y: 270,
             description: "This is the left side of the shoe",
+        },
+        {
+            x: 180,
+            y: 160,
+            description: "This is the left side of the shoe",
         }
         // Add more product tags as needed
     ];
@@ -36,7 +41,6 @@ const Footer = () => {
                 const tagPositions = productTags.map((tag) =>
                     calculateTagPosition(imageWidth, imageHeight, tag.x, tag.y, viewportWidth)
                 );
-                console.log(tagPositions, "tagTag Positions");
                 const modalPosition = calculateTagPosition(
                     selectedTag?.x, selectedTag?.y, viewportWidth, viewportWidth, viewportHeight
                 )
@@ -62,30 +66,7 @@ const Footer = () => {
     const handleTagClick = (tag) => {
         setSelectedTag(tag);
     };
-    const calculateModalPosition = (x, y, viewportWidth, viewportHeight) => {
-        const modalWidth = viewportWidth * 0.8;
-        const modalHeight = viewportHeight * 0.8;
-        // Calculate the position of the modal
-        let modalLeft = x - modalWidth / 2;
-        let modalTop = y - modalHeight / 2;
-        // Make sure the modal is within the viewport
-        if (modalLeft < 0) {
-            modalLeft = 0;
-        } else if (modalLeft + modalWidth > viewportWidth) {
-            modalLeft = viewportWidth - modalWidth;
-        }
-        if (modalTop < 0) {
-            modalTop = 0;
-        } else if (modalTop + modalHeight > viewportHeight) {
-            modalTop = viewportHeight - modalHeight;
-        }
-        return {
-            modalLeft: `${modalLeft}px`,
-            modalTop: `${modalTop}px`,
-            modalWidth: `${modalWidth}px`,
-            modalHeight: `${modalHeight}px`,
-        };
-    };
+
     return (
         <div className="footer__main-div">
             <Bounded as="footer" style={{backgroundColor: "white",}}
@@ -112,8 +93,7 @@ const Footer = () => {
                                 />
                             ))}
                             {selectedTag && (
-
-                                <FooterMobileCard ref={modalRef} setSelectedTag={setSelectedTag} />
+                                <FooterMobileCard ref={modalRef} setSelectedTag={setSelectedTag}/>
                             )}
                         </div>
                         <div className="footer__item-right-wrapper">

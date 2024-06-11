@@ -17,23 +17,31 @@ export const MobileNavigationSectionData = [
     {
         id: 1,
         title: "خانه",
-        linkTo: "/",
-        iconPath: "/src/assets/icons/home-2.svg"
+        linkTo: "/home",
+        iconPath: "/src/assets/icons/Home2.svg",
+        greenIconPath: "/src/assets/icons/GreenHome.svg"
+
+
     }, {
         id: 2,
         title: "دسته بندی ها",
         linkTo: "/categories",
-        iconPath: "/src/assets/icons/category.svg"
+        iconPath: "/src/assets/icons/Category.svg",
+        greenIconPath: "/src/assets/icons/GreenCategory.svg"
     }, {
         id: 3,
         title: "سبد خرید",
         linkTo: "/shopping-cart",
-        iconPath: "/src/assets/icons/shopping-cart.svg"
+        iconPath: "/src/assets/icons/shopping-Cart.svg",
+        greenIconPath: "/src/assets/icons/GreenShoppingCard.svg"
     }, {
         id: 4,
         title: "پروفایل",
         linkTo: "/profile",
-        iconPath: "/src/assets/icons/frame.svg"
+        iconPath: "/src/assets/icons/Profile.svg",
+        greenIconPath: "/src/assets/icons/GreenProfile.svg"
+
+
     },
 ]
 export const FooterCardsCategoryData = [
