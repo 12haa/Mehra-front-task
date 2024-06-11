@@ -5,6 +5,7 @@ import CustomButton from "./CustomButton.tsx";
 import {useEffect, useRef, useState} from "react";
 import {calculateTagPosition} from "../utils/helpers";
 import FooterModal from "./FooterModal.tsx";
+import FooterMobileCard from "./FooterMobileCard.tsx";
 
 const Footer = () => {
     const productTags = [
@@ -111,54 +112,8 @@ const Footer = () => {
                                 />
                             ))}
                             {selectedTag && (
-                                <div className="modal" ref={modalRef}>
-                                    <div className="modal__nav-header">
-                                        <p>عنوان محصول عنوان محصول عنوان محصول </p>
-                                        <div className="close" onClick={() => setSelectedTag(null)}>
-                                            <img src="/src/assets/icons/Xmark.svg" alt="close icon"/>
-                                        </div>
-                                    </div>
-                                    <div className="modal__nav-tags-main-div">
-                                        <div className="modal__nav-left-tag-div">
-                                            <img src="/src/assets/icons/MehraShopLogo.svg" alt="Mehrashop logo"/>
-                                            <p>فروشگاه مهراشاپ</p>
-                                        </div>
-                                        <div className="modal__nav-right-tag">
-                                            {
-                                                [0, 1, 2].map((item, i) => (
-                                                    <img src="/src/assets/icons/RatingTags.svg"
-                                                         alt="product rating image"
-                                                         key={i}/>
-                                                ))
-                                            }
-                                        </div>
-                                    </div>
-                                    {/*TODO : Add Image Slider*/}
-                                    <div className="modal__nav-tags-image-div">
-                                        <img src="/src/assets/icons/DummyProductImage.svg" alt="product image"/>
-                                    </div>
-                                    <div className="modal__slidy">
-                                        <img src="/src/assets/icons/Dot.svg" alt="dot"/>
-                                        <img src="/src/assets/icons/Dot.svg" alt="dot"/>
-                                        <img src="/src/assets/icons/Dot.svg" alt="dot"/>
-                                        <img src="/src/assets/icons/Rect.svg" alt="Rectangle"/>
-                                    </div>
-                                    <div className="modal__footer-main-div">
-                                        <div className="modal__footer-left-tag-div">
-                                            <p >فروشگاه مهراشاپ</p>
-                                            <img src="/src/assets/icons/MehraShopLogo.svg" alt="Mehrashop logo"/>
-                                        </div>
-                                        <div className="modal__footer-right-tag-div">
-                                            {
-                                                [0, 1, 2].map((item, i) => (
-                                                    <img src="/src/assets/icons/RatingTags.svg"
-                                                         alt="product rating image"
-                                                         key={i}/>
-                                                ))
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
+
+                                <FooterMobileCard ref={modalRef} setSelectedTag={setSelectedTag} />
                             )}
                         </div>
                         <div className="footer__item-right-wrapper">
@@ -178,7 +133,7 @@ const Footer = () => {
                                 alignItems: "center",
                                 justifyContent: "center"
                             }} dir="rtl">
-                            <CustomButton iconUrl="/src/assets/icons/arrow-down.svg" title="مشاهده همه محصولات"
+                                <CustomButton iconUrl="/src/assets/icons/arrow-down.svg" title="مشاهده همه محصولات"
                                               linkUrl="/"/>
                             </div>
                         </div>
