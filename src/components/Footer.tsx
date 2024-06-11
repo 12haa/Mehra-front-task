@@ -3,25 +3,10 @@ import CategoryCard from "./CategoryCard.tsx";
 import {FooterCardsCategoryData} from "../dummyData.ts";
 import CustomButton from "./CustomButton.tsx";
 import {useEffect, useRef, useState} from "react";
+import {calculateTagPosition} from "../utils/helpers";
+import FooterModal from "./FooterModal.tsx";
 
 const Footer = () => {
-    const calculateTagPosition = (imageWidth, imageHeight, tagX, tagY, viewportWidth) => {
-        const maxTagWidth = viewportWidth * 0.2; // Set the maximum width of the tag to 20% of the viewport width
-        const tagAspectRatio = 1; // Set the aspect ratio of the tag to 1:1
-        let tagWidth = maxTagWidth;
-        let tagHeight = tagWidth * tagAspectRatio;
-
-        // Calculate the scaling factor to fit the tag inside the image
-        const scaleFactor = Math.min(imageWidth / tagWidth, imageHeight / tagHeight);
-        tagWidth *= scaleFactor;
-        tagHeight *= scaleFactor;
-
-        // Calculate the position of the tag
-        const tagLeft = (tagX - tagWidth / 2) / imageWidth *10  + '%';
-        const tagTop = (tagY - tagHeight / 2) / imageHeight *10 + '%';
-
-        return { tagLeft, tagTop, tagWidth, tagHeight };
-    };
     const productTags = [
         {
             x: 108,
@@ -36,20 +21,25 @@ const Footer = () => {
         // Add more product tags as needed
     ];
     const [selectedTag, setSelectedTag] = useState(null);
-    const imageRef=useRef(null)
+    const [modalPosition, setModalPosition] = useState(null)
+    const modalRef = useRef(null)
+    const imageRef = useRef(null)
     useEffect(() => {
         const handleResize = () => {
             if (imageRef.current) {
-                const imageWidth = imageRef.current.naturalWidth-300;
-                const imageHeight = imageRef.current.naturalHeight-300;
+                const imageWidth = imageRef.current.naturalWidth - 300;
+                const imageHeight = imageRef.current.naturalHeight - 300;
                 const viewportWidth = window.innerWidth;
-
+                const viewportHeight = window.innerHeight
                 // Calculate the position of the tags
                 const tagPositions = productTags.map((tag) =>
                     calculateTagPosition(imageWidth, imageHeight, tag.x, tag.y, viewportWidth)
                 );
-                console.log(tagPositions , "tagTag Positions");
-
+                console.log(tagPositions, "tagTag Positions");
+                const modalPosition = calculateTagPosition(
+                    selectedTag?.x, selectedTag?.y, viewportWidth, viewportWidth, viewportHeight
+                )
+                console.log(modalPosition, "modalPosition");
                 // Set the position of the tags
                 tagPositions.forEach(({tagLeft, tagTop, tagWidth, tagHeight}, index) => {
                     const tagRef = productTagRefs.current[index];
@@ -60,54 +50,116 @@ const Footer = () => {
                         tagRef.style.height = `${tagHeight}px`;
                     }
                 });
+                setModalPosition(modalPosition)
             }
         };
         handleResize(); // Initial resize
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, [imageRef, selectedTag]);
     const productTagRefs = useRef([]);
     const handleTagClick = (tag) => {
         setSelectedTag(tag);
     };
+    const calculateModalPosition = (x, y, viewportWidth, viewportHeight) => {
+        const modalWidth = viewportWidth * 0.8;
+        const modalHeight = viewportHeight * 0.8;
+        // Calculate the position of the modal
+        let modalLeft = x - modalWidth / 2;
+        let modalTop = y - modalHeight / 2;
+        // Make sure the modal is within the viewport
+        if (modalLeft < 0) {
+            modalLeft = 0;
+        } else if (modalLeft + modalWidth > viewportWidth) {
+            modalLeft = viewportWidth - modalWidth;
+        }
+        if (modalTop < 0) {
+            modalTop = 0;
+        } else if (modalTop + modalHeight > viewportHeight) {
+            modalTop = viewportHeight - modalHeight;
+        }
+        return {
+            modalLeft: `${modalLeft}px`,
+            modalTop: `${modalTop}px`,
+            modalWidth: `${modalWidth}px`,
+            modalHeight: `${modalHeight}px`,
+        };
+    };
     return (
         <div className="footer__main-div">
-            <Bounded as="footer" style={{backgroundColor: "white", width: "100%"}}
+            <Bounded as="footer" style={{backgroundColor: "white",}}
                      childrenStyle={{backgroundColor: "white"}}>
-
                 <div className="footer__items-main-wrapper">
                     <div className="footer__items-wrapper">
                         <div className="footer__items-image-wrapper">
                             <img src="/src/assets/images/cuteWoman.png" alt="cuteWomen Image" ref={imageRef}/>
 
-                                {productTags.map((tag, index) => (
-                                    <img src="/src/assets/icons/ClickCircle.svg" alt="productTag Image"
-                                         key={index}
-                                         className="product-tag"
-                                         ref={(ref) => {
-                                             productTagRefs.current[index] = ref;
-                                         }}
-                                         style={{
-                                             left: `${tag.x}px`,
-                                             top: `${tag.y}px`,
-                                             width: "0px",
-                                             height: "0px",
-                                         }}
-                                         onClick={() => handleTagClick(tag)}
-                                    />
-                                ))}
-                                {selectedTag && (
-                                    <div className="modal" style={{
-                                        left:`${selectedTag.x+100}px`,
-                                        top: `${selectedTag.y+20}px`,
-                                    }}>
-                                        <div className="modal-content">
-                                            <span className="close" onClick={() => setSelectedTag(null)}>&times;</span>
-                                            <p>{selectedTag.description}</p>
+                            {productTags.map((tag, index) => (
+                                <img src="/src/assets/icons/ClickCircle.svg" alt="productTag Image"
+                                     key={index}
+                                     className="product-tag"
+                                     ref={(ref) => {
+                                         productTagRefs.current[index] = ref;
+                                     }}
+                                     style={{
+                                         left: `${tag.x}px`,
+                                         top: `${tag.y}px`,
+                                         width: "0px",
+                                         height: "0px",
+                                     }}
+                                     onClick={() => handleTagClick(tag)}
+                                />
+                            ))}
+                            {selectedTag && (
+                                <div className="modal" ref={modalRef}>
+                                    <div className="modal__nav-header">
+                                        <p>عنوان محصول عنوان محصول عنوان محصول </p>
+                                        <div className="close" onClick={() => setSelectedTag(null)}>
+                                            <img src="/src/assets/icons/Xmark.svg" alt="close icon"/>
                                         </div>
                                     </div>
-                                )}
-
+                                    <div className="modal__nav-tags-main-div">
+                                        <div className="modal__nav-left-tag-div">
+                                            <img src="/src/assets/icons/MehraShopLogo.svg" alt="Mehrashop logo"/>
+                                            <p>فروشگاه مهراشاپ</p>
+                                        </div>
+                                        <div className="modal__nav-right-tag">
+                                            {
+                                                [0, 1, 2].map((item, i) => (
+                                                    <img src="/src/assets/icons/RatingTags.svg"
+                                                         alt="product rating image"
+                                                         key={i}/>
+                                                ))
+                                            }
+                                        </div>
+                                    </div>
+                                    {/*TODO : Add Image Slider*/}
+                                    <div className="modal__nav-tags-image-div">
+                                        <img src="/src/assets/icons/DummyProductImage.svg" alt="product image"/>
+                                    </div>
+                                    <div className="modal__slidy">
+                                        <img src="/src/assets/icons/Dot.svg" alt="dot"/>
+                                        <img src="/src/assets/icons/Dot.svg" alt="dot"/>
+                                        <img src="/src/assets/icons/Dot.svg" alt="dot"/>
+                                        <img src="/src/assets/icons/Rect.svg" alt="Rectangle"/>
+                                    </div>
+                                    <div className="modal__footer-main-div">
+                                        <div className="modal__footer-left-tag-div">
+                                            <p >فروشگاه مهراشاپ</p>
+                                            <img src="/src/assets/icons/MehraShopLogo.svg" alt="Mehrashop logo"/>
+                                        </div>
+                                        <div className="modal__footer-right-tag-div">
+                                            {
+                                                [0, 1, 2].map((item, i) => (
+                                                    <img src="/src/assets/icons/RatingTags.svg"
+                                                         alt="product rating image"
+                                                         key={i}/>
+                                                ))
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                         <div className="footer__item-right-wrapper">
                             <div className="footer__items-cards-wrapper" dir="rtl">
@@ -126,12 +178,13 @@ const Footer = () => {
                                 alignItems: "center",
                                 justifyContent: "center"
                             }} dir="rtl">
-                                <CustomButton iconUrl="/src/assets/icons/arrow-down.svg" title="مشاهده همه محصولات"
+                            <CustomButton iconUrl="/src/assets/icons/arrow-down.svg" title="مشاهده همه محصولات"
                                               linkUrl="/"/>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </Bounded>
         </div>
     )
