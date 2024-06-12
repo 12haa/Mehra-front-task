@@ -80,9 +80,7 @@ const FooterMobileCard = ({ref , setSelectedTag}:FooterMobileCardProps) => {
                             color: "#80ad01",
                             fontSize: "16px",
                         }}>46,000</p>
-
                         <p>تومان</p>
-
                     </div>
                 </div>
             </div>

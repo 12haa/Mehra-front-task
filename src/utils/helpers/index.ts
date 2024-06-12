@@ -29,12 +29,13 @@ export const calculateModalPosition = (tagX, tagY, viewportWidth, viewportHeight
     // If the modal's height is greater than the maxModalHeight, adjust the width and height
     if (modalHeight > maxModalHeight) {
         modalHeight = maxModalHeight;
-        modalWidth = modalHeight / aspectRatio;
+        modalWidth = modalHeight / aspectRatio - 100;
     }
 
     // Calculate the position of the modal
-    const modalLeft = (tagX - modalWidth / 2) / viewportWidth * 1000 ;
-    const modalTop = (tagY - modalHeight /2) / viewportHeight * 10 ;
+    // const modalLeft = (tagX - modalWidth / 2) / viewportWidth *100 +"%" ;
+    const modalLeft = (tagX )/ viewportWidth *5000 ;
+    const modalTop = (tagY - modalHeight /2) / viewportHeight  ;
 
     return { modalLeft, modalTop, modalWidth, modalHeight };
 };
