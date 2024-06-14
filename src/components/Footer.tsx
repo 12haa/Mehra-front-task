@@ -1,32 +1,59 @@
-import Bounded from "./Bounded.tsx";
 import CategoryCard from "./CategoryCard.tsx";
 import { FooterCardsCategoryData } from "../dummyData.ts";
+import Bounded from "./Bounded.tsx";
 import CustomButton from "./CustomButton.tsx";
 import { useEffect, useRef, useState } from "react";
 import { calculateModalPosition, calculateTagPosition } from "../utils/helpers";
-import FooterModal from "./FooterModal.tsx";
 import FooterMobileCard from "./FooterMobileCard.tsx";
 import FooterDesktopCard from "./FooterDesktopCard.tsx";
 
 const Footer = () => {
-  const productTags = [
+  // Add more product tags as needed
+  const images = [
     {
-      x: 108,
-      y: 60,
-      description: "This is the top of the shoe",
+      path: "/src/assets/images/cuteWoman.png",
+      alt: "Pic1",
+      tags: [
+        {
+          x: 130,
+          y: 70,
+          description: "This is Hat",
+        },
+        {
+          x: 90,
+          y: 250,
+          description: "This is the top of the Bag",
+        },
+        {
+          x: 220,
+          y: 140,
+          description: "This is Bracelet",
+        },
+      ],
     },
     {
-      x: 60,
-      y: 270,
-      description: "This is Hat",
+      path: "/src/assets/images/image110.png",
+      alt: "Pic2",
+      tags: [
+        {
+          x: 210,
+          y: 90,
+          description: "This is the top of the shoe",
+        },
+        {
+          x: 250,
+          y: 270,
+          description: "This is Hat",
+        },
+        {
+          x: 150,
+          y: 160,
+          description: "This is Bracelet",
+        },
+      ],
     },
-    {
-      x: 180,
-      y: 160,
-      description: "This is Bracelet",
-    },
-    // Add more product tags as needed
   ];
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedTag, setSelectedTag] = useState(null);
   const [modalPosition, setModalPosition] = useState(null);
   const modalRef = useRef(null);
@@ -35,12 +62,12 @@ const Footer = () => {
   useEffect(() => {
     const handleResize = () => {
       if (imageRef.current) {
-        const imageWidth = imageRef.current.naturalWidth - 300;
-        const imageHeight = imageRef.current.naturalHeight - 300;
+        const imageWidth = imageRef.current.naturalWidth / 10;
+        const imageHeight = imageRef.current.naturalHeight / 10;
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
         // Calculate the position of the tags
-        const tagPositions = productTags.map((tag) =>
+        const tagPositions = images[currentIndex].tags.map((tag) =>
           calculateTagPosition(
             imageWidth,
             imageHeight,
@@ -49,14 +76,13 @@ const Footer = () => {
             viewportWidth,
           ),
         );
-        const modalPosition = calculateModalPosition(
+        const modalPosition = calculateTagPosition(
           selectedTag?.x,
           selectedTag?.y,
           viewportWidth,
           viewportWidth,
           viewportHeight,
         );
-        console.log(modalPosition, "modalPosition");
         // Set the position of the tags
         tagPositions.forEach(
           ({ tagLeft, tagTop, tagWidth, tagHeight }, index) => {
@@ -64,8 +90,8 @@ const Footer = () => {
             if (tagRef) {
               tagRef.style.left = tagLeft;
               tagRef.style.top = tagTop;
-              tagRef.style.width = `${tagWidth}px`;
-              tagRef.style.height = `${tagHeight}px`;
+              tagRef.style.width = `${tagWidth + 3}px`;
+              tagRef.style.height = `${tagHeight + 3}px`;
             }
           },
         );
@@ -75,11 +101,12 @@ const Footer = () => {
     handleResize(); // Initial resize
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [imageRef, selectedTag]);
+  }, [imageRef, selectedTag, currentIndex]);
   const productTagRefs = useRef([]);
-  const handleTagClick = (tag) => {
+  const handleTagClick = (tag: any) => {
     setSelectedTag(tag);
   };
+  console.log();
   return (
     <div className="footer__main-div">
       <Bounded
@@ -90,13 +117,48 @@ const Footer = () => {
         <div className="footer__items-main-wrapper">
           <div className="footer__items-wrapper">
             <div className="footer__items-image-wrapper">
-              <img
-                src="/src/assets/images/cuteWoman.png"
-                alt="cuteWomen Image"
-                ref={imageRef}
-              />
+              <div className="image__slider">
+                <button
+                  onClick={() =>
+                    setCurrentIndex((prevIndex) =>
+                      prevIndex > 0 ? prevIndex - 1 : images.length - 1,
+                    )
+                  }
+                >
+                  <img
+                    src="/src/assets/icons/Arrow.svg"
+                    alt="Arrow"
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                    }}
+                  />
+                </button>
 
-              {productTags.map((tag, index) => (
+                <img
+                  src={images[currentIndex].path}
+                  alt="cuteWomen Image"
+                  ref={imageRef}
+                />
+                <button
+                  onClick={() =>
+                    setCurrentIndex((prevIndex) =>
+                      prevIndex < images.length - 1 ? prevIndex + 1 : 0,
+                    )
+                  }
+                >
+                  <img
+                    src="/src/assets/icons/Arrow.svg"
+                    alt="Arrow"
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                    }}
+                  />
+                </button>
+              </div>
+
+              {images[currentIndex].tags.map((tag, index) => (
                 <img
                   src="/src/assets/icons/ClickCircle.svg"
                   alt="productTag Image"
@@ -106,14 +168,13 @@ const Footer = () => {
                     productTagRefs.current[index] = ref;
                   }}
                   style={{
-                    left: `${tag.x}px`,
+                    left: `${tag.x}px `,
                     top: `${tag.y}px`,
-                    width: "0px",
-                    height: "0px",
                   }}
                   onClick={() => handleTagClick(tag)}
                 />
               ))}
+
               {selectedTag && (
                 <>
                   <FooterMobileCard
@@ -121,72 +182,11 @@ const Footer = () => {
                     setSelectedTag={setSelectedTag}
                   />
                   {/*<FooterDesktopCard/>*/}
-                  <div
-                    className="desktop__modal"
-                    style={{
-                      left: `${selectedTag.x * 3}px`, // Add 50px to the x value of the selected tag
-                      top: `${selectedTag.y * 1.25}px`, // Add 30px to the y value of the selected tag
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: "100%",
-                      }}
-                    >
-                      <span
-                        className="close"
-                        style={{
-                          cursor: "pointer",
-                        }}
-                        onClick={() => setSelectedTag(null)}
-                      >
-                        &times;
-                      </span>
-                    </div>
-                    <div className="modal__content-main-div">
-                      <div className="modal__content-left-div">
-                        <p>عنوان محصول عنوان محصول عنوان محصول عنوان محصول</p>
-                        <div className="modal__content-footer-div">
-                          <div className="modal__content-left-rate-div">
-                            <p
-                              style={{
-                                textDecoration: "line-through",
-                              }}
-                            >
-                              46000
-                            </p>
-                            <div>
-                              <p>4.6</p>
-                              <img
-                                src="src/assets/images/DummyProductRatingStar.png"
-                                alt="Dummy Product Rating Star"
-                              />
-                            </div>
-                          </div>
-                          <div
-                            style={{
-                              display: "flex",
-                              width: "100%",
-                              alignItems: "start",
-                              paddingTop: "30px",
-                              fontSize: "17px",
-                            }}
-                          >
-                            <p style={{ color: "#86bc42", gap: "10px" }}>
-                              460,00&nbsp;
-                              <span style={{ color: "#878787" }}>تومان</span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="desktop__modal-right-div">
-                        <img
-                          src="/src/assets/images/DummyProductImage.png"
-                          alt="Dummy Product Image"
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  <FooterDesktopCard
+                    selectedTag={selectedTag}
+                    setSelectedTag={setSelectedTag}
+                    desc={selectedTag.description}
+                  />
                 </>
               )}
             </div>
