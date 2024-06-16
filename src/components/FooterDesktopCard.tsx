@@ -24,7 +24,7 @@ const FooterDesktopCardModal = ({ selectedTag, setSelectedTag, desc }) => {
       </div>
       <div className="modal__content-main-div">
         <div className="modal__content-left-div">
-          <p>{desc || "no desc"}</p>
+          <p>{desc || "no description"}</p>
           <div className="modal__content-footer-div">
             <div className="modal__content-left-rate-div">
               <p
@@ -35,11 +35,11 @@ const FooterDesktopCardModal = ({ selectedTag, setSelectedTag, desc }) => {
                 46000
               </p>
               <div>
-                <p>4.6</p>
                 <img
-                  src="src/assets/images/DummyProductRatingStar.png"
+                  src="/src/assets/images/DummyProductRatingStar.png"
                   alt="Dummy Product Rating Star"
                 />
+                <p>4.6</p>
               </div>
             </div>
             <div

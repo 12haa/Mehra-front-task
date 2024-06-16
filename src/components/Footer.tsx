@@ -8,7 +8,7 @@ import FooterMobileCard from "./FooterMobileCard.tsx";
 import FooterDesktopCard from "./FooterDesktopCard.tsx";
 
 const Footer = () => {
-  // Add more product tags as needed
+  // Add more products as needed
   const images = [
     {
       path: "/src/assets/images/cuteWoman.png",
@@ -58,7 +58,8 @@ const Footer = () => {
   const [modalPosition, setModalPosition] = useState(null);
   const modalRef = useRef(null);
   const imageRef = useRef(null);
-  // To handle
+  const productTagRefs = useRef([]);
+  // To handle Tag and Modal Position
   useEffect(() => {
     const handleResize = () => {
       if (imageRef.current) {
@@ -102,7 +103,6 @@ const Footer = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [imageRef, selectedTag, currentIndex]);
-  const productTagRefs = useRef([]);
   const handleTagClick = (tag: any) => {
     setSelectedTag(tag);
   };
@@ -176,18 +176,28 @@ const Footer = () => {
               ))}
 
               {selectedTag && (
-                <>
+                <div
+                  style={{
+                    position: "absolute",
+                    width: "100%",
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyItems: "center",
+                  }}
+                >
+                  {/*Mobile Card Modal*/}
                   <FooterMobileCard
                     ref={modalRef}
                     setSelectedTag={setSelectedTag}
                   />
-                  {/*<FooterDesktopCard/>*/}
+                  {/*<Desktop Card Modal/>*/}
                   <FooterDesktopCard
                     selectedTag={selectedTag}
                     setSelectedTag={setSelectedTag}
                     desc={selectedTag.description}
                   />
-                </>
+                </div>
               )}
             </div>
             <div className="footer__item-right-wrapper">
@@ -202,16 +212,7 @@ const Footer = () => {
                   );
                 })}
               </div>
-              <div
-                style={{
-                  marginTop: "40px",
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-                dir="rtl"
-              >
+              <div className="custom__btn-main-div" dir="rtl">
                 <CustomButton
                   iconUrl="/src/assets/icons/arrow-down.svg"
                   title="مشاهده همه محصولات"
